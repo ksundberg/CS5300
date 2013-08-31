@@ -1,0 +1,130 @@
+\documentclass{book}
+\title{Compiler Project Source Language}
+
+\usepackage{hyperref}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\cleardoublepage
+\thispagestyle{empty}
+\vspace*{\stretch{1}}
+\begin{flushright}
+\itshape
+Dedicated to Dr. Steven J. Allan
+\end{flushright}
+\vspace{\stretch{3}}
+\cleardoublepage
+
+\chapter{Abstract}
+CPSL (Compiler Project Source Language) is the programming language implemented in the Complier Construction course at Utah State University (CS 5300).
+CPSL is a strongly typed, static scoped, block structured, high level language in the spirit of Pascal.
+
+\chapter{Acknowledgement}
+With permission, this work is largely derived from the CPSL language created for CS 5300 by Dr. Allan.  The mistakes are mine.
+
+\tableofcontents
+\listoftables
+\mainmatter
+\chapter{Definitions}
+
+
+The character set of CPSL is ASCII.
+In the following \textit{letter} denotes any upper- or lower-case letter, and \textit{digit} denotes any of the ten decimal digits 0 through 9.
+
+\chapter{Lexical Structure}
+\section{Introduction}
+The following is a detailed description of the lexical structure of CPSL.
+Any lexeme not described herein is an error and should result in an appropriate diagnostic message.
+\section{Keywords}
+Keywords are strings with predefined meaning.  
+They can not be redefined by the user.
+These keywords are either all capitals or all lower-case, 
+mixed-case variations are not keywords.
+For example, BEGIN and begin are keywords while Begin is not.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{llllll}
+array & begin & chr & const & do & downto \\
+else & elseif & end & for & forward & function \\
+if & of & ord & pred & procedure & read \\
+record & repeat & return & stop & succ & then \\
+to & type & until & var & while & write \\
+\end{tabular}
+\end{center}
+\caption{Keywords of CPSL}
+\end{table}
+\section{Identifiers}
+Identifiers in CPSL consist of a letter, followed by a sequence of zero or more letters, digits, or underscores.
+Upper- and lower-case letters are considered \textbf{distinct}.
+There is \textbf{no limit} on the length of identifiers in CPSL.
+\subsection{Predefined Identifiers}
+CPSL has a small set of predefined identifiers.
+Unlike keywords, the meaning of these identifiers may be altered by the user.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{ll|r}
+Identifier & & Meaning \\
+\hline
+integer & INTEGER & Basic Integer type \\
+char & CHAR & Basic Character type \\
+boolean & BOOLEAN & Basic Boolean type \\
+string & STRING & Basic String type \\
+true & TRUE & Boolean constant \\
+false & FALSE & Boolean constant \\
+\end{tabular}
+\end{center}
+\caption{Predefined Identifiers in CPSL}
+\end{table}
+\section{Operators and Delimiters}
+CPSL has a set of symbols used as operators and delimiters.
+These characters are not a valid part of any keyword or identifier.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cccccccc}
+$+$ & $-$ & $*$ & $/$ & \& & $|$ & \textasciitilde & = \\
+$<>$ & $<$ & $<=$ & $>$ & $>=$ & . & , & : \\
+; & ( & ) & [ & ] & := & \% &  \\
+
+\end{tabular}
+\end{center}
+\caption{Operators and Delimiters of CPSL}
+\end{table}
+\section{Constants}
+\subsection{Integer Constants}
+Integer Constants in CPSL are of three forms, each denoting an integer in a different base.
+\begin{itemize}
+\item A sequence of digits beginning with a 0 is interpreted as an octal number
+\item A 0x followed by a sequence of digits is interpreted as a hexadecimal number
+\item Any other sequence of digits is interpreted as a decimal value
+\end{itemize}
+\subsection{Character Constants}
+A character constant represents a \textit{single} character and is enclosed in a pair of single quotes.  A character constant may not be blank, the lexeme consisting of a pair of single quotes is an error.
+\subsection{String Constants}
+A string constant represents a multi-character sequence and is enclosed in a pair of double quotes. String constants may not contain double quotes.
+A string constant may be empty.
+\subsection{Representing Characters in Character and String Constants}
+The newline character (ASCII 10) may not appear between the single or double quotes of a character or string constant.
+Any printable character (ASCII 40 to 176 inclusive) can be represented
+as itself with the exception of \textbackslash.
+Also such a constant can contain a \textbackslash followed by any printable character.  Such a \textbackslash - escaped sequence is interpreted as the character after the \textbackslash with the following exceptions:
+\begin{description}
+\item[\textbackslash n] line feed
+\item[\textbackslash r] carriage return
+\item[\textbackslash b] backspace
+\item[\textbackslash t] tab
+\item[\textbackslash f] form feed 
+\end{description}
+
+
+
+\subsection{Comments}
+A comment in CPSL begins with a \$ and continues to the end of the line.
+\subsection{Blanks, Tabs, Spaces, and New Lines}
+Blanks, tabs, spaces, and new lines (white space) delimit other tokens but are otherwise ignored.  This does not hold inside character and string constants where such characters are interpreted as themselves.
+
+\end{document}
