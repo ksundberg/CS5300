@@ -1,7 +1,10 @@
 \documentclass{book}
 \title{Compiler Project Source Language}
+\author{Kenneth Sundberg}
+\date{\today}
 
 \usepackage{hyperref}
+\usepackage{syntax}
 
 \begin{document}
 \frontmatter
@@ -32,6 +35,14 @@ With permission, this work is largely derived from the CPSL language created for
 
 The character set of CPSL is ASCII.
 In the following \textit{letter} denotes any upper- or lower-case letter, and \textit{digit} denotes any of the ten decimal digits 0 through 9.
+
+The syntax of CPSL is expressed in a EBNF-like format as follows:
+\begin{grammar}
+<Nonterminal> $\rightarrow$ <Nonterminal> "token" <token with state>
+\alt <Optional>? <Repeated>*
+\alt <empty>
+\end{grammar}
+Within this format non-terminal symbols will be formatted in mixed case and enclosed in angle brackets.  Terminals without state, such as keywords, will be formatted in bold.  Terminals with state, such as identifiers, will be formatted in lower case and enclosed in angle brackets.  Symbol groups will be indicated with parenthesis.  Optional symbols or symbol groups will be indicated with a question mark.  Alternatives for a symbol or symbol group will be indicated with a vertical bar. The terminal \textit{empty} in a production indicates an empty production.
 
 \chapter{Lexical Structure}
 \section{Introduction}
@@ -78,6 +89,7 @@ false & FALSE & Boolean constant \\
 \end{tabular}
 \end{center}
 \caption{Predefined Identifiers in CPSL}
+\label{predefinedident}
 \end{table}
 \section{Operators and Delimiters}
 CPSL has a set of symbols used as operators and delimiters.
@@ -120,11 +132,178 @@ Also such a constant can contain a \textbackslash followed by any printable char
 \item[\textbackslash f] form feed 
 \end{description}
 
-
-
 \subsection{Comments}
 A comment in CPSL begins with a \$ and continues to the end of the line.
 \subsection{Blanks, Tabs, Spaces, and New Lines}
 Blanks, tabs, spaces, and new lines (white space) delimit other tokens but are otherwise ignored.  This does not hold inside character and string constants where such characters are interpreted as themselves.
+
+\chapter{Syntactic Structure}
+The overall structure of a CPSL program is as follows:
+\begin{grammar}
+<Program> $\rightarrow$ <ConstantDecl>? <TypeDecl>? <VarDecl>? \\
+( <ProcedureDecl> | <FunctionDecl> )* <Block> "."
+\end{grammar}
+
+\section{Declarations}
+
+\subsection{Constant Declarations}
+\begin{grammar}
+<ConstantDecl> $\rightarrow$ ("const" <ident> "=" <ConstExpression> ";")+
+\end{grammar}
+
+\subsection{Procedure and Function Declarations}
+Procedure and Function Declarations have the following structure:
+\begin{grammar}
+<ProcedureDecl>  $\rightarrow$ 
+"procedure" <ident> "(" <FormalParameters> ")" ";" forward ";"
+\alt "procedure" <ident> "(" <FormalParameters> ")" ";" "<Body>" ";"
+
+<FunctionDecl>  $\rightarrow$ 
+"function" <ident> "(" <FormalParameters> ")" ":" <Type> ";" forward ";"
+\alt "function" <ident> "(" <FormalParameters> ")" ":" <Type>  ";" "<Body>" ";"
+
+<FormalParameters> $\rightarrow$ <empty>
+\alt "var"? <IdentList> ":" <Type> (";" "var"? <IdentList> ":" <Type>)*
+
+<Body> $\rightarrow$ <ConstantDecl>? <TypeDecl>? <VarDecl>? Block
+
+<Block> $\rightarrow$ "begin" <StatementSequence> "end"
+\end{grammar}
+
+Notice that procedure and function definitions \textit{cannot} be nested.  In other words, we have only a global environment and a local environment.  Procedures and functions can only be defined in the global environment.  In the local environment we can only define constants, types, and variables.  Notice also the provision for accommodating \textbf{forward} references to procedures and functions.  Notice also that both procedures and functions requires parentheses in the definition even if there are no parameters.  This is also true for their invocations.
+
+\subsection{Type Declarations}
+
+In CPSL there are four predefined types (see figure \ref{predefinedident}), and two type constructors.
+The type constructors are array and record.
+
+\begin{grammar}
+<TypeDecl> $\rightarrow$ "type" (<ident> "=" <Type> ";")+
+
+<Type> $\rightarrow$ <SimpleType> \alt <RecordType> \alt <ArrayType>
+
+<SimpleType> $\rightarrow$ <ident>
+
+<RecordType> $\rightarrow$ "record" (<IdentList> ":" <Type> ";")* "end"
+
+<ArrayType> $\rightarrow$ "array" "[" <ConstExpression> ":" <ConstExpression> "]" "of" <Type>
+
+<IdentList> $rightarrow$ <ident> ("," <ident>)*
+\end{grammar}
+
+\subsection{Variable Declarations}
+\begin{grammar}
+<VarDecl> $\rightarrow$ "var" (IdentList ":" <Type> ";")+
+\end{grammar}
+
+\section{CPSL Statements}
+Statements in CPSL have the following syntax:
+\begin{grammar}
+<StatementSequence> $\rightarrow$ <Statement> (";" <Statement>)*
+
+<Statement> $\rightarrow$ <Assignment>
+\alt <IfStatement>
+\alt <WhileStatement>
+\alt <RepeatStatement>
+\alt <ForStatement>
+\alt <StopStatement>
+\alt <ReturnStatement>
+\alt <ReadStatement>
+\alt <WriteStatement>
+\alt <ProcedureCall>
+\alt <NullStatement>
+
+<Assignment> $\rightarrow$ <LValue> ":=" <Expression>
+
+<IfStatement> $\rightarrow$ "if" <Expression> "then" <StatementSequence> ("elseif" <Expression> "then" <StatementSequence>)* ("else" <StatementSequence>)? "end"
+
+<WhileStatement> $\rightarrow$ "while" <Expression> "do" <StatementSequence> "end"
+
+<RepeatStatement> $\rightarrow$ "repeat" <StatementSequence> "until" <Expression>
+
+<ForStatement> $\rightarrow$ "for" <ident> ":=" <Expression> "to" <Expression> "do" <StatementSequence> "end"
+
+<StopStatement> $\rightarrow$ "stop"
+
+<ReturnStatement> $\rightarrow$ "return" <Expression>?
+
+<ReadStatement> $\rightarrow$ "read" "(" <LValue> ("," <LValue>)* ")"
+
+<WriteStatement> $\rightarrow$ "write" "(" <Expression> ("," <Expression>)* ")"
+
+<ProcedureCall> $\rightarrow$ <ident> "(" (<Expression> ("," <Expression>)*)? ")"
+
+<NullStatement> $\rightarrow$ <empty>
+\end{grammar}
+
+\section{Expressions}
+\begin{grammar}
+<Expression> $\rightarrow$ <Expression> "|" <Expression>
+\alt <Expression> "\& " <Expression>
+\alt <Expression> "=" <Expression>
+\alt <Expression> "<>" <Expression>
+\alt <Expression> "<=" <Expression>
+\alt <Expression> ">=" <Expression>
+\alt <Expression> "<" <Expression>
+\alt <Expression> ">" <Expression>
+\alt <Expression> "+" <Expression>
+\alt <Expression> "-" <Expression>
+\alt <Expression> "*" <Expression>
+\alt <Expression> "/" <Expression>
+\alt <Expression> "\%" <Expression>
+\alt "~" <Expression>
+\alt "-" <Expression>
+\alt "(" <Expression> ")"
+\alt <ident> "(" (<Expression> ("," <Expression>)*)? ")"
+\alt "chr" "(" <Expression> ")"
+\alt "ord" "(" <Expression> ")"
+\alt "pred" "(" <Expression> ")"
+\alt "succ" "(" <Expression> ")"
+\alt <LValue>
+\alt <ConstExpression>
+
+<LValue> $\rightarrow$ <ident>
+\alt <ident> "." <ident>
+\alt <ident> "[" <Expression> "]"
+
+<ConstExpression> $\rightarrow$ <ConstExpression> "|" <ConstExpression>
+\alt <ConstExpression> "\& " <ConstExpression>
+\alt <ConstExpression> "=" <ConstExpression>
+\alt <ConstExpression> "<>" <ConstExpression>
+\alt <ConstExpression> "<=" <ConstExpression>
+\alt <ConstExpression> ">=" <ConstExpression>
+\alt <ConstExpression> "<" <ConstExpression>
+\alt <ConstExpression> ">" <ConstExpression>
+\alt <ConstExpression> "+" <ConstExpression>
+\alt <ConstExpression> "-" <ConstExpression>
+\alt <ConstExpression> "*" <ConstExpression>
+\alt <ConstExpression> "/" <ConstExpression>
+\alt <ConstExpression> "\%" <ConstExpression>
+\alt "~" <ConstExpression>
+\alt "-" <ConstExpression>
+\alt "(" <ConstExpression> ")"
+\alt <intconst>
+\alt <charconst>
+\alt <strconst>
+\alt <ident>
+
+\end{grammar}
+To resolve ambiguities in this grammar the following suffices:
+\begin{itemize}
+\item Arithmetic and Boolean binary operators are left-associative
+\item Relational operators are non-associative
+\item Unary minus and Boolean not are right-associative
+\item Operators have the following precedence (decreasing order)
+\begin{itemize}
+\item Unary $-$ (negation)
+\item * / \%
+\item $+$ $-$
+\item $=$ $<>$ $<$ $<=$ $>$ $>=$
+\item \textasciitilde
+\item \&
+\item $|$
+\end{itemize}
+\end{itemize}
+
 
 \end{document}
