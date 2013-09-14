@@ -1,0 +1,105 @@
+Keywords___________________________
+
+array	ARRAY
+else	ELSE
+if	IF
+record	RECORD
+to	TO
+begin	BEGIN
+elseif	ELSEIF
+of	OF
+repeat	REPEAT
+type	TYPE
+chr	CHR
+end	END
+ord	ORD
+return	RETURN
+until	UNTIL
+const	CONST
+for	FOR
+pred	PRED
+stop	STOP
+var	VAR
+do	DO
+forward	FORWARD
+procedure	PROCEDURE
+succ	SUCC
+while	WHILE
+downto	DOWNTO
+function	FUNCTION
+read	READ
+then	THEN
+write	WRITE
+
+Identifiers_________________________
+
+integer
+char 
+boolean
+string
+true
+false
+
+an_identifier
+
+Operators_and_Delimiters_____________
+
++
+<>
+;
+-
+<
+(
+*
+<=
+)
+/
+>
+[
+&
+>=
+]
+|
+.
+:=
+~
+,
+%
+=
+:
+
+Integer_Constants___________________
+
+002567
+0x0aCFf2
+25
+
+Character_Constants_________________
+
+'a'
+'b'
+'k'
+'z'
+'A'
+'Z'
+' '
+'~'
+
+String_Constants____________________
+
+"This is a string"
+"cool"
+"this is "not" a string"
+"test all characters ~`!@#$%^&*()_-+={[}}|\:;'<,>.?/234567890"
+"test quote character " "
+"test newline \n"
+
+Comments____________________________
+
+$ this is a comment
+this is not
+$this is another comment
+
+	
+
+
