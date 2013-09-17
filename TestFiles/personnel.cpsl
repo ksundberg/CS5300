@@ -1,0 +1,135 @@
+$ Program to sort personnel data
+
+const
+  TABLEN = 20;
+  NAMELEN = 24;
+
+type
+  ntype = array[1:NAMELEN] of char;
+  ptype = record
+    age : integer;
+    name : ntype;
+  end;
+
+var
+  table : array[1:TABLEN] of ptype;
+  persons : integer;
+
+function exchname (var a,b:ntype) : boolean
+  var
+    i:integer;
+begin
+  for i := 1 to NAMELEN do
+    if a[i] > b[i]
+      then return true;
+    elseif a[i] < b[i]
+      then return false;
+    end;
+  end;
+  return false;
+end;
+
+function exchange (a,b: integer) : boolean
+begin
+  return a > b;
+end;
+
+procedure nameread (var a : ntype)
+  var
+    c:char;
+    i:integer;
+begin
+  repeat
+    read(c);
+  until c<>' ';
+  i := 1;
+  repeat
+    a[i] := c;
+    read(c);
+    i := i + 1;
+  until c = '\n';
+  while i <= NAMELEN do $pad with spaces
+    a[i] := ' ';
+    i := i+1;
+  end;
+end;
+
+procedure personread (var p:ptype);
+begin
+  read(p.age);
+  nameread(p.name);
+end;
+
+procedure tableread ();
+  var
+    n:integer;
+begin
+  for n:=1 to persons do
+    personread(table[n])
+  end;
+end;
+
+procedure personswap (var a,b : ptype)
+  var
+    t : ptype;
+begin
+  t := a;
+  a := b;
+  b := t;
+end;
+
+procedure printtable();
+  var
+    i,n:integer;
+begin
+  write("#    age    Name\n");
+  write("------------------");
+  for n := 1 to persons do
+    write(n, ":\t", table[n].age, '\t');
+    for i := 1 to NAMELEN do
+      write(table[n].name[i]);
+    end;
+  end;
+end;
+
+procedure agesort();
+  var
+    n,m:integer;
+begin
+  for m := persons downto 1 do
+    for n:=1 to m-1 do
+      if exchange(table[n].name,table[n+1].name)
+        then personswap(table[n],table[n+1]);
+      end;
+    end;
+  end;
+end;
+
+procedure namesort ();
+  var
+    n,m:integer;
+begin
+  for m := persons downto 1 do
+    for n:=1 to m-1 do
+      if exchname(table[n].name,table[n+1].name)
+        then personswap(table[n],table[n+1]);
+      end;
+    end;
+  end;
+end;
+
+begin
+  read(persons);
+  if persons > TABLEN then 
+    write("Too many persons (", persons, ").  Limit is ", TABLEN, '\n');
+    stop;
+  end;
+  tableread();
+  printtable();
+  write("\n\tSorted by age:\n\n");
+  agesort();
+  printtable();
+  write("\n\tSorted by name:\n\n");
+  namesort();
+  printtable();
+end;
