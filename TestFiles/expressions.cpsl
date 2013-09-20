@@ -5,9 +5,9 @@ BEGIN
   write("2*2=",2*2,'\n');
   write("2/2=",2/2,'\n');
   write("2-2=",2-2,'\n');
-  write("Enter A:")
+  write("Enter A:");
   read(a);
-  write("\nEnter b:")
+  write("\nEnter b:");
   read(b);
   write('\n');
   
@@ -22,4 +22,4 @@ BEGIN
   write("a<>b=",a<>b,'\n');
   write("a<=b=",a<=b,'\n');
   write("a>=b=",a>=b,'\n');
-END;
+END.

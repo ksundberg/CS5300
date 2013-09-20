@@ -148,7 +148,7 @@ The overall structure of a CPSL program is as follows:
 
 \subsection{Constant Declarations}
 \begin{grammar}
-<ConstantDecl> $\rightarrow$ ("const" <ident> "=" <ConstExpression> ";")+
+<ConstantDecl> $\rightarrow$ "const" (<ident> "=" <ConstExpression> ";")+
 \end{grammar}
 
 \subsection{Procedure and Function Declarations}
@@ -221,7 +221,7 @@ Statements in CPSL have the following syntax:
 
 <RepeatStatement> $\rightarrow$ "repeat" <StatementSequence> "until" <Expression>
 
-<ForStatement> $\rightarrow$ "for" <ident> ":=" <Expression> "to" <Expression> "do" <StatementSequence> "end"
+<ForStatement> $\rightarrow$ "for" <ident> ":=" <Expression> ("to"|"downto") <Expression> "do" <StatementSequence> "end"
 
 <StopStatement> $\rightarrow$ "stop"
 
@@ -262,9 +262,7 @@ Statements in CPSL have the following syntax:
 \alt <LValue>
 \alt <ConstExpression>
 
-<LValue> $\rightarrow$ <ident>
-\alt <ident> "." <ident>
-\alt <ident> "[" <Expression> "]"
+<LValue> $\rightarrow$ <ident> (( "." <ident>)|( "[" <Expression> "]"))*
 
 <ConstExpression> $\rightarrow$ <ConstExpression> "|" <ConstExpression>
 \alt <ConstExpression> "\& " <ConstExpression>

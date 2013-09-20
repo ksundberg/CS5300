@@ -7,4 +7,4 @@ BEGIN
     f:=f*n;
     WRITE(n,'\t',f);
   END;
-END;
+END.
