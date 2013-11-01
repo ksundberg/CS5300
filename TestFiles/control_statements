@@ -1,0 +1,118 @@
+CONST
+	NAMELEN = 20;
+
+VAR 
+	i,j,k : integer;
+	a,b,c,d,e,f : integer;
+
+BEGIN
+
+i:= 12;
+j:= 12;
+
+write("i = 12; j = 12;\n");
+write("Repeat 1: i < 5\n");
+write("Repeat 2: j < 6\n");
+write("Repeat 1: j:= i;\n");
+write('\n');
+
+repeat 
+	write("\ni: ", i, "\tj:  ");
+	repeat 
+		write(j, " ");
+		j := j - 1;
+	until j < 6;
+	j := i;
+	i := i - 1;
+until i < 5;
+
+
+for i := 1 to 20 do
+	write(i);
+	if(i < 12)
+		then write(" is less than 12\n");
+	else
+		write(" is not less than 12\n");
+	end;
+end;
+
+write("\nThis is the middle.\n\n");
+
+for i := 12 to 25 do
+	write(i, ' ');
+end;
+
+write("\nTesting DOWN_TO\n\n");
+
+write("We are doing: \n");
+write(" i from 20 downto 15 \n");
+write(" j from 15 to i \n");
+write(" k from i-j downto 0\n");
+write('\n');
+
+for i := 20 downto 15 do
+	write("i: ", i, "\n");
+	for j := 15 to i do
+		write("  j: ", j, "    ");
+		for k := i - j downto 0 do
+			write(k, ' ');
+		end;
+		write('\n');
+	end;
+end;
+
+
+
+
+	write("Enter A: ");
+	read(a);
+	write("Enter B: ");
+	read(b);
+
+	if a < b
+	  	then write(a, " < ", b, '\n');
+
+	  	write("Enter C: ");
+		read(c);
+		write("Enter D: ");
+		read(d);
+
+		if c <= d 
+			then write(c, " <= ", d, '\n');
+
+			write("Enter E: ");
+			read(e);
+			write("Enter F: ");
+			read(f);
+
+			if e > f
+				then write(e, " > ", f, '\n');
+			else
+				write(e, " ! > ", f, '\n');
+			end;
+
+	  	end;
+
+	elseif a = b
+		then write(a, " = ", b, '\n');
+
+	elseif a > b
+		then write(a, " > ", b, '\n');
+			  	
+	else 
+		write(a, " > ", b, '\n');
+	end;
+i:= 12;
+
+
+while i <= 20 do $pad with spaces
+	write(i,'\n',"Going into inner while.\n");
+	j:=i;
+	while(j >= 0) do
+		write(j,'\n');
+		j := j-1;
+	end;
+	i := i + 1;
+  end;
+
+END.
