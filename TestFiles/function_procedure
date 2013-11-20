@@ -1,0 +1,66 @@
+const
+  TABLEN = 20;
+  NAMELEN = 24;
+
+var
+  a : integer;
+
+procedure sayHi();
+begin
+  write("Hi\n");
+end;
+
+procedure printGlobal();
+begin
+  write("Global a=", a, '\n');
+end;
+
+procedure print (var b,c:integer);
+var 
+ f : boolean;
+begin
+  write("The print procedure will say hi: ");
+  sayHi();
+  write("B: ", b, " C: ", c);
+end;
+
+function add (a,b: integer) : integer;
+begin
+  return a + b;
+end;
+
+function factorial (n : integer) : integer;
+begin
+  if(n = 0) then
+    return 1;
+  end;
+
+  return factorial(n-1) * n;
+end;
+
+function lotsOfArgs(a,b,c,d,e,f,g,h : integer) : integer;
+begin
+  return a+b+c+d+f+g+h;
+end;
+
+begin
+  a := 55;
+
+  sayHi();
+
+  write("Calling printGlobal. It should print 55...\n");
+  printGlobal();
+
+  print(20,13);
+  write("\na: ", a,'\n', "add(12,3)=", add(12,3), '\n');
+
+  write("\nfactorial(1) = ", factorial(1));
+  write("\nfactorial(2) = ", factorial(2));
+  write("\nfactorial(3) = ", factorial(3));
+  write("\nfactorial(4) = ", factorial(4));
+  write("\nfactorial(5) = ", factorial(5));
+
+  write('\n');
+
+  write("\nLots of args = ", lotsOfArgs(1,1,1,1,1,1,1,1));
+end.
