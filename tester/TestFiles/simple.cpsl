@@ -1,0 +1,17 @@
+VAR a,b:integer;
+
+BEGIN
+
+a := 1;
+b := 2;
+write(a,b);
+
+a := a + b; $a=3
+b := a + b; $b=5
+write(a,b);
+
+a := a * b; $a=15
+b := a * b; $a=75
+write(a,b);
+
+END.
