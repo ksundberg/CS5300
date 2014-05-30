@@ -4,8 +4,8 @@ BEGIN
 
 i:= 0;
 while i < 20 do
-    write(i,' ');
-    i := succ(i);
+  write(i,' ');
+  i := succ(i);
 end;
 
 while i < 20 do

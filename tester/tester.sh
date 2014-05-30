@@ -1,5 +1,10 @@
 #!/bin/bash
 
+on_die()
+{
+  exit 0;
+}
+
 cd `dirname "$0"`
 
 TESTDIR=TestFiles/ #test files directory (where all test.cpsl files are)
@@ -25,6 +30,9 @@ fi
 #create these directories if they don't exist already
 mkdir -p $ASM $RESULTS
 
+trap on_die SIGINT
+trap on_die TERM
+
 for file in $files; do
 
     if [[ ! -f ${TESTDIR}${file} ]]; then
@@ -39,12 +47,14 @@ for file in $files; do
         continue
     fi
 
+    echo -n "Executing: ${file}"
     java -jar ${MARSDIR}${MARSJAR} ${ASM}${file} > ${RESULTS}${file}
 
     if [ $? -ne 0 ]; then
         echo "Error running: java -jar ${MARSDIR}${MARSJAR} ${ASM}${file} > ${RESULTS}${file}"
         continue
     fi
+    echo "...finished"
 
     cmp ${RESULTS}${file} ${BASE}${file}
 done
