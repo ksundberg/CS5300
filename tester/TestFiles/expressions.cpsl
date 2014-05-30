@@ -1,4 +1,5 @@
  VAR a,b:integer;
+     c,d:char;
 
 BEGIN
   write("15=",(2+1)*(2+1)+6,'\n');
@@ -13,10 +14,21 @@ BEGIN
   write("2>=2=",2>=2,'\n');
   write("2<=2=",2<=2,'\n');
   write("2<>2=",2<>2,'\n','\n');
+  write('a','\n');
   write('a'+1,'\n');
+  write(ord('a'),'\n');
   write(1+'a','\n');
+  write(chr(1+'a'),'\n');
   write(chr('a'+1),'\n');
   write(ord('a'+1),'\n');
+  c := 'c';
+  d := 'd';
+  write(c,'\n');
+  write(d,'\n');
+  write(c+1,'\n');
+  write(d+1,'\n');
+  write(chr(c+1),'\n');
+  write(chr(d+1),'\n');
   write('\n');
   write("2+2+2=",2+2+2,'\n');
   write("2*2*2=",2*2*2,'\n');

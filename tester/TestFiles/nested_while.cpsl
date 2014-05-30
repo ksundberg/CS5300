@@ -1,0 +1,17 @@
+VAR i,j:integer;
+
+BEGIN
+
+i:= 0;
+while i < 20 do
+    write('i', i, ' ');
+    i := succ(i);
+    j := 0;
+    while (j < 2) do
+        write('j', j, ' ');
+        j := succ(j);
+    end;
+    write('\n');
+end;
+
+END.

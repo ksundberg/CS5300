@@ -1,0 +1,21 @@
+VAR i : integer;
+
+BEGIN
+
+i := 20;
+
+if (i < 12) then 
+  write(i, " is less than 12");
+elseif i > 18 then
+  write(i, " is greater than 18");
+end;
+
+write('\n');
+
+if (i > 12) then 
+  write(i, " is greater than 12");
+elseif (i > 18) then
+  write("this is an error");
+end;
+
+END.

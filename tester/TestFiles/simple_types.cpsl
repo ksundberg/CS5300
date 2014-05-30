@@ -1,0 +1,14 @@
+VAR a   : integer;
+    b   : char;
+    c,d : boolean;
+
+begin
+
+a := 1;
+b := 'b';
+c := true;
+d := false;
+
+write(a,b,c,d);
+
+end.

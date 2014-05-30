@@ -13,15 +13,24 @@ ASM=asm/ #tmp directory for asm files for mars to run
 MARSDIR=../mars/
 MARSJAR=Mars4_4.jar
 
-pushd . >> /dev/null
-cd ${TESTDIR}
-LS=`ls *.cpsl`
-popd >>/dev/null
+if [ -z $1 ]; then
+  pushd . >> /dev/null
+  cd ${TESTDIR}
+  files=`ls *.cpsl`
+  popd >>/dev/null
+else
+  files=$1
+fi
 
 #create these directories if they don't exist already
 mkdir -p $ASM $RESULTS
 
-for file in $LS; do
+for file in $files; do
+
+    if [[ ! -f ${TESTDIR}${file} ]]; then
+        echo "File '${file}' not found"
+        continue
+    fi
 
     ${CPSLDIR}${BINARY} ${TESTDIR}${file} > ${ASM}${file}
 
