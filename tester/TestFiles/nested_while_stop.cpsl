@@ -1,0 +1,27 @@
+VAR i,j:integer;
+
+BEGIN
+
+i:= 0;
+while i < 20 do
+  write('i', i, ' ');
+  i := succ(i);
+  j := 0;
+  while j < 5 do
+    write('j', j, ' ');
+    j := succ(j);
+    if j = 3 then
+      write("stopping at ",j,' ');
+      stop;
+      write("stopped in j loop");
+    end;
+  end;
+  if i = 10 then
+    write("\nstopping at ",i);
+    stop;
+    write("stopped in i loop");
+  end;
+  write('\n');
+end;
+
+END.
