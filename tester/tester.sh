@@ -2,6 +2,7 @@
 
 on_die()
 {
+  echo
   exit 0;
 }
 

@@ -1,0 +1,25 @@
+VAR a : integer;
+
+BEGIN
+
+for a := 2 to 8 do
+  write("a is ",a,'\n');
+  if a = 4 then
+    write("stopping");
+    stop;
+    write("stopped to");
+  end;
+end;
+
+write('\n');
+
+for a := 8 downto 2 do
+  write("a is ",a,'\n');
+  if a = 6 then
+    write("stopping");
+    stop;
+    write("stopped downto");
+  end;
+end;
+
+END.
