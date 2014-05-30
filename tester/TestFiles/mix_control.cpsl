@@ -11,7 +11,7 @@ else
   while j < 4 do
     for a := j to 4 do
       k := 0;
-      while k < 4 do
+      repeat
         if k = 0 then
           write("0=",k,", ");
         elseif 1=k then
@@ -22,7 +22,7 @@ else
           write("else=",k,", ");
         end;
         k := succ(k);
-      end;
+      until k > 3;
       write("a=",a,'\n');
     end;
     j := succ(j);
