@@ -9,7 +9,7 @@ end;
 write('\n');
 
 for a := 4 downto 2 do
-write("a is ",a,'\n');
+  write("a is ",a,'\n');
 end;
 
 END.

@@ -8,6 +8,11 @@ while i < 20 do
     i := succ(i);
 end;
 
+while i < 20 do
+  write(i,' ');
+  i := succ(i);
+end;
+
 write('\n');
 
 END.
