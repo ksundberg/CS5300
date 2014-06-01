@@ -1,0 +1,10 @@
+In order to run the tester.sh you need to:
+
+1. Setup correct directory vars. Crack open tester.sh and set the all the vars
+   to your correct setup.
+2. ensure java is installed and mars is installed
+
+As you want to enhance / add new tests. Place a cpsl file in the TestFiles
+directory and run tester.sh. The assembly and output files will be placed
+in their directories. Verify the result file is correct and move it to the
+base folder. Now you have automated regression tests!
