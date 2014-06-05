@@ -1,0 +1,32 @@
+VAR a,i,j,k : integer;
+
+BEGIN
+
+i := 0;
+
+if i > 0 then
+  write("err");
+else
+  j := 0;
+  while j < 4 do
+    for a := j to 4 do
+      k := 0;
+      repeat
+        if k = 0 then
+          write("0=",k,", ");
+        elseif 1=k then
+          write("1=",k,", ");
+        elseif k<>3 then
+          write("2=",k,", ");
+        else
+          write("else=",k,", ");
+        end;
+        k := succ(k);
+      until k > 3;
+      write("a=",a,'\n');
+    end;
+    j := succ(j);
+  end;
+end;
+
+END.

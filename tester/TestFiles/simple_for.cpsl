@@ -1,0 +1,15 @@
+VAR a : integer;
+
+BEGIN
+
+for a := 2 to 4 do
+  write("a is ",a,'\n');
+end;
+
+write('\n');
+
+for a := 4 downto 2 do
+  write("a is ",a,'\n');
+end;
+
+END.

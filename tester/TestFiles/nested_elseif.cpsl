@@ -1,0 +1,26 @@
+VAR i : integer;
+
+BEGIN
+
+i := 20;
+
+if (i < 12) then 
+  write(i, " is less than 12");
+    if (i < 10) then
+      write(i, " is less than 10");
+    elseif (i < 11) then
+      write(i, " is 10");
+    else
+      write(i, " is 11");
+    end;
+elseif i > 18 then
+    if (i < 20) then
+      write(i, " is less than 20");
+    elseif (i < 21) then
+      write(i, " is 20");
+    else
+      write(i, " is greater than 20");
+    end;
+end;
+
+END.
