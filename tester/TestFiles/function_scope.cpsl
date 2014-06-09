@@ -1,0 +1,34 @@
+VAR
+	a:integer;
+
+procedure localScope();
+VAR
+	a:integer;
+BEGIN
+	a:=10;
+	write(a);
+END;
+
+procedure paramScope(a:integer);
+BEGIN
+	a:=15;
+	write(15);
+END;
+
+procedure globalScope();
+BEGIN
+	write(a);
+END;
+
+BEGIN
+	a:=5;
+	write(a);
+	write('\n');
+	localScope();
+	write('\n');
+	paramScope(a);
+	write('\n');
+	globalScope();
+	write('\n');
+	write(a);
+END.

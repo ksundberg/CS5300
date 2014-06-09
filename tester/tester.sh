@@ -12,11 +12,12 @@ TESTDIR=TestFiles/ #test files directory (where all test.cpsl files are)
 RESULTS=Result/ #results folder (where to store cpsl run results for comparison)
 BASE=Base/ #base folder name (contains results to compare against)
 
-CPSLDIR=../cpsl/build/ #where cpsl compiler binary lives
+CPSLDIR=../../source/ #where cpsl compiler binary lives
 BINARY=cpsl #binary name
 ASM=asm/ #tmp directory for asm files for mars to run
+OUTFILE=output.asm #output file produced by cpsl
 
-MARSDIR=../mars/
+MARSDIR=../../mars/
 MARSJAR=Mars4_4.jar
 
 if [ -z $1 ]; then
@@ -41,7 +42,8 @@ for file in $files; do
         continue
     fi
 
-    ${CPSLDIR}${BINARY} ${TESTDIR}${file} > ${ASM}${file}
+    ${CPSLDIR}${BINARY} ${TESTDIR}${file}
+    mv ${OUTFILE} ${ASM}${file}
 
     if [ $? -ne 0 ]; then
         echo "Error running: ${CPSLDIR}${BINARY} ${TESTDIR}${file} > ${ASM}${file}"
