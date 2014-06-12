@@ -71,26 +71,7 @@ to & type & until & var & while & write \\
 Identifiers in CPSL consist of a letter, followed by a sequence of zero or more letters, digits, or underscores.
 Upper- and lower-case letters are considered \textbf{distinct}.
 There is \textbf{no limit} on the length of identifiers in CPSL.
-\subsection{Predefined Identifiers}
-CPSL has a small set of predefined identifiers.
-Unlike keywords, the meaning of these identifiers may be altered by the user.
 
-\begin{table}[h!]
-\begin{center}
-\begin{tabular}{ll|r}
-Identifier & & Meaning \\
-\hline
-integer & INTEGER & Basic Integer type \\
-char & CHAR & Basic Character type \\
-boolean & BOOLEAN & Basic Boolean type \\
-string & STRING & Basic String type \\
-true & TRUE & Boolean constant \\
-false & FALSE & Boolean constant \\
-\end{tabular}
-\end{center}
-\caption{Predefined Identifiers in CPSL}
-\label{predefinedident}
-\end{table}
 \section{Operators and Delimiters}
 CPSL has a set of symbols used as operators and delimiters.
 These characters are not a valid part of any keyword or identifier.
@@ -148,7 +129,7 @@ The overall structure of a CPSL program is as follows:
 
 \subsection{Constant Declarations}
 \begin{grammar}
-<ConstantDecl> $\rightarrow$ "const" (<ident> "=" <ConstExpression> ";")+
+<ConstantDecl> $\rightarrow$ "const" (<ident> "=" <Expression> ";")+
 \end{grammar}
 
 \subsection{Procedure and Function Declarations}
@@ -170,7 +151,15 @@ Procedure and Function Declarations have the following structure:
 <Block> $\rightarrow$ "begin" <StatementSequence> "end"
 \end{grammar}
 
-Notice that procedure and function definitions \textit{cannot} be nested.  In other words, we have only a global environment and a local environment.  Procedures and functions can only be defined in the global environment.  In the local environment we can only define constants, types, and variables.  Notice also the provision for accommodating \textbf{forward} references to procedures and functions.  Notice also that both procedures and functions requires parentheses in the definition even if there are no parameters.  This is also true for their invocations.
+Notice that procedure and function definitions \textit{cannot} be nested.
+In other words, we have only a global environment and a local environment. 
+Procedures and functions can only be defined in the global environment.
+In the local environment we can only define constants, types, and variables.
+Notice also the provision for accommodating \textbf{forward} references to procedures and functions.
+Notice also that both procedures and functions requires parentheses
+in the definition even if there are no parameters.
+This is also true for their invocations.
+
 
 \subsection{Type Declarations}
 
@@ -186,7 +175,7 @@ The type constructors are array and record.
 
 <RecordType> $\rightarrow$ "record" (<IdentList> ":" <Type> ";")* "end"
 
-<ArrayType> $\rightarrow$ "array" "[" <ConstExpression> ":" <ConstExpression> "]" "of" <Type>
+<ArrayType> $\rightarrow$ "array" "[" <Expression> ":" <Expression> "]" "of" <Type>
 
 <IdentList> $\rightarrow$ <ident> ("," <ident>)*
 \end{grammar}
@@ -263,6 +252,38 @@ Statements in CPSL have the following syntax:
 
 <LValue> $\rightarrow$ <ident> (( "." <ident>)|( "[" <Expression> "]"))*
 
+\end{grammar}
+To resolve ambiguities in this grammar the following suffices:
+\begin{itemize}
+\item Arithmetic and Boolean binary operators are left-associative
+\item Relational operators are non-associative
+\item Unary minus and Boolean not are right-associative
+\item Operators have the following precedence (decreasing order)
+\begin{itemize}
+\item Unary $-$ (negation)
+\item * / \%
+\item $+$ $-$
+\item $=$ $<>$ $<$ $<=$ $>$ $>=$
+\item \textasciitilde
+\item \&
+\item $|$
+\end{itemize}
+\end{itemize}
+\chapter{Semantic Structure}
+\section{Constant Expressions}
+
+Some of the grammar rules involving expressions are constrained to only use constant expressions.
+Constant expressions are expressions whose values can be determined at compile time.
+The declaration of constants and the bounds of an array type must be constant expressions.
+\begin{grammar}
+<ConstantDecl> $\rightarrow$ "const" (<ident> "=" <ConstExpression> ";")+
+<ArrayType> $\rightarrow$ "array" "[" <ConstExpression> ":" <ConstExpression> "]" "of" <Type>
+\end{grammar}
+
+Constant expressions are a subset of expressions and have much of the same syntactic structure.
+Note that the property of constant-ness is context sensitive and can not be determined from the grammar of CPSL alone.
+
+\begin{grammar}
 <ConstExpression> $\rightarrow$ <ConstExpression> "|" <ConstExpression>
 \alt <ConstExpression> "\& " <ConstExpression>
 \alt <ConstExpression> "=" <ConstExpression>
@@ -283,24 +304,87 @@ Statements in CPSL have the following syntax:
 \alt <charconst>
 \alt <strconst>
 \alt <ident>
-
 \end{grammar}
-To resolve ambiguities in this grammar the following suffices:
-\begin{itemize}
-\item Arithmetic and Boolean binary operators are left-associative
-\item Relational operators are non-associative
-\item Unary minus and Boolean not are right-associative
-\item Operators have the following precedence (decreasing order)
-\begin{itemize}
-\item Unary $-$ (negation)
-\item * / \%
-\item $+$ $-$
-\item $=$ $<>$ $<$ $<=$ $>$ $>=$
-\item \textasciitilde
-\item \&
-\item $|$
-\end{itemize}
-\end{itemize}
 
+\subsection{Expression Types}
+The binary expression operators are not defined for strings and user defined types.
+The result of a relational operator is always a boolean expression.
+The logical operators and, or, and not are only defined for boolean expressions.
+The arithemetic operators are only defined for integers.
+Mixed type expressions are also not defined.
 
+\section{Intrinsic Functions}
+\subsection{chr}
+This intrinsic changes the type of an expression from integer to character.
+It is not defined for other types.
+No code needs to be emitted.
+\subsection{ord}
+This intrinsic changes the type of an expression from character to integer.
+It is not defined for other types.
+No code needs to be emitted.
+\subsection{pred}
+This intrinsic decrements the value of an expression.
+It is not defined for strings or user defined types.
+For boolean expressions the predecessor of true is false, and the predecessor of false is true.
+\subsection{succ}
+This intrinsic increments the value of an expression.
+It is not defined for strings or user defined types.
+For boolean expressions the successor of true is false, and the successor of false is true.
+
+\section{Predefined Identifiers}
+CPSL has a small set of predefined identifiers.
+Unlike keywords, the meaning of these identifiers may be altered by the user.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{ll|r}
+Identifier & & Meaning \\
+\hline
+integer & INTEGER & Basic Integer type \\
+char & CHAR & Basic Character type \\
+boolean & BOOLEAN & Basic Boolean type \\
+string & STRING & Basic String type \\
+true & TRUE & Boolean constant \\
+false & FALSE & Boolean constant \\
+\end{tabular}
+\end{center}
+\caption{Predefined Identifiers in CPSL}
+\label{predefinedident}
+\end{table}
+
+\section{Simple Statements}
+\subsection{Stop}
+The stop statement terminates execution of a CPSL program.
+\subsection{Read}
+The read statement calls the appropriate system calls to fill the given L-Values from user input.  Only L-Values of integer or character type can be so filled.
+\subsection{Write}
+The write statement calls the appropriate system calls to output given expressions to the console.
+This statement is not defined for user defined types.
+Boolean values are written as if they were integer values.
+\section{Control Statements}
+\subsection{If}
+The if statement evaluates a given expression and then branches either to the then statement sequence or to the next else if.
+The else if is evaluated in the same fashion as an if.
+If no if or else if expression is true then control passes to the else statement.
+\subsection{While}
+The while statement evaluates a given expression and if the expression is true processes the statement list.
+After processing the statement list the expression is again evaluated.
+\subsection{Repeat}
+Processes a statement list then evaluates and expression.  If the expression is true then the statement list and evaluation occur again.
+\subsection{For}
+Introduces a new variable which takes on each value in a range of values.
+Either in an monotonically increasing or decreasing fashion depending on whether the keyword to or downto was used.  For each value of the new variable a list of statements is executed.
+\section{Function and Procedure Calls}
+\subsection{Parameters}
+Parameters in CPSL are always passed by value.
+No function or procedure can have side effects, except for output or through global variables.
+\subsection{Return}
+The return statement passes control back to a function or procedure caller.  If it is a function the expression returned becomes the expression of the function call in the callers scope.
+\section{User Defined Types}
+\subsection{Arrays}
+Arrays are a contiguously allocated, homogeneously typed set of variables.
+Though it is a logic error to reference an out of bounds array element, CPSL makes no guarantees about run-time or compile-time checking of this error.
+Be aware that CPSL arrays are not zero based, rather they are given a low to high inclusive range.
+\subsection{Records}
+Records are a contiguously allocated set of variables that may be of heterogeneous types.  Each variable in the set, called a field, has both a type and name associated with it.  Field names exist in their own namespace and do not conflict with names in any other scope, or defined by any other record type.
 \end{document}
