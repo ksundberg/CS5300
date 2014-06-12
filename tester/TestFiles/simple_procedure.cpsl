@@ -1,0 +1,14 @@
+procedure simpleProcedure();
+BEGIN
+	write("Simple Procedure Test\n");
+END;
+
+procedure simpleProcedureArgument(a:integer);
+BEGIN
+	write("Argument Should Be 10:",a);
+END;
+
+BEGIN
+	simpleProcedure();
+	simpleProcedureArgument(10);
+END.
