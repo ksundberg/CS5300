@@ -1,17 +1,17 @@
 VAR
 	a:integer;
 
-function functionOne(a:integer) : integer;
-BEGIN
-	write("Function One Recieved:",a,". \nCalling Function Two From Function One With ",a+5, "\n");
-	return functionTwo(a+5);
-END;
-
 function functionTwo(a:integer) : integer;
 BEGIN
 	write("Function Two Recieved:", a, "\n");
 	write("Returning ",a+5,"\n");
 	return a+5;
+END;
+
+function functionOne(a:integer) : integer;
+BEGIN
+	write("Function One Recieved:",a,". \nCalling Function Two From Function One With ",a+5, "\n");
+	return functionTwo(a+5);
 END;
 
 BEGIN

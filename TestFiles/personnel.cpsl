@@ -34,61 +34,67 @@ begin
   return a > b;
 end;
 
-procedure nameread (var a : ntype);
+function nameread() : ntype;
   var
     c:char;
     i:integer;
+    a:ntype;
 begin
-  repeat
-    read(c);
-  until c<>' ';
+  write("Enter Name, one character at a time. End by entering a single period.\n");
   i := 1;
   repeat
-    a[i] := c;
     read(c);
+    a[i] := c;
     i := i + 1;
-  until c = '\n';
+  until c = '.';
+  a[i-1] := ' ';
   while i <= NAMELEN do $pad with spaces
     a[i] := ' ';
-    i := i+1;
+    i := i + 1;
   end;
+  return a;
 end;
 
-procedure personread (var p:ptype);
+function personread () : ptype;
+var
+  p:ptype;
 begin
+  write("Enter Age\n");
   read(p.age);
-  nameread(p.name);
+  p.name := nameread();
+  return p;
 end;
 
 procedure tableread ();
-  var
-    n:integer;
+var
+  n:integer;
 begin
   for n:=1 to persons do
-    personread(table[n])
+    table[n] := personread();
   end;
 end;
 
-procedure personswap (var a,b : ptype);
+procedure personswap (var a,b : integer);
   var
-    t : ptype;
+    t:ptype;
 begin
-  t := a;
-  a := b;
-  b := t;
+  t := table[a];
+  table[a] := table[b];
+  table[b] := t;
 end;
 
 procedure printtable();
   var
     i,n:integer;
 begin
-  write("#    age    Name\n");
-  write("------------------");
+  write("#\tage\tName\n");
+  write("---------------------\n");
   for n := 1 to persons do
     write(n, ":\t", table[n].age, '\t');
     for i := 1 to NAMELEN do
       write(table[n].name[i]);
     end;
+      write("\n");
   end;
 end;
 
@@ -99,7 +105,7 @@ begin
   for m := persons downto 1 do
     for n:=1 to m-1 do
       if exchange(table[n].age,table[n+1].age)
-        then personswap(table[n],table[n+1]);
+        then personswap(n,n+1);
       end;
     end;
   end;
@@ -112,13 +118,14 @@ begin
   for m := persons downto 1 do
     for n:=1 to m-1 do
       if exchname(table[n].name,table[n+1].name)
-        then personswap(table[n],table[n+1]);
+        then personswap(n,n+1);
       end;
     end;
   end;
 end;
 
 begin
+  write("Enter Number of People:\n");
   read(persons);
   if persons > TABLEN then 
     write("Too many persons (", persons, ").  Limit is ", TABLEN, '\n');
