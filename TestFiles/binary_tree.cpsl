@@ -1,0 +1,117 @@
+$ Program creates a binary tree and uses it to sort integers
+
+const
+  TABLEN = 10;
+  ENDLN = '\n';
+  
+type
+  link = record
+    left : integer; $ points to index of nodelist
+    right : integer; $ points to index of nodelist
+  end;
+  
+var
+  nodelist : array[1:TABLEN] of integer; $ node at index i has link at i of linklist
+  linklist : array[1:TABLEN] of link;
+  nodeCount : integer;
+  
+procedure makeNode();
+  var l : link;
+begin
+  l.left := 0;
+  l.right := 0;
+  linklist[nodeCount] := l;
+end;
+
+procedure addNode();
+  var i, new, current : integer;
+begin
+  if nodeCount = 1 then 
+    return; 
+  end; $ root node 
+  
+  new := nodelist[nodeCount];
+  current := 1; $start at root
+  
+  while (current <> 0) do
+    if new < nodelist[current] then $ we need to go to the left
+      if linklist[current].left = 0 then $ left node is empty, we go there
+        linklist[current].left := nodeCount; $ link left to new node
+        return;
+      else $ left node is not empty, change to that node
+        current := linklist[current].left;
+      end;
+    else $ we need to go right
+      if linklist[current].right = 0 then $ right node is empty, we go there
+        linklist[current].right := nodeCount; $ link right to new node
+        return;
+      else $ right node is not empty, change to that node
+        current := linklist[current].right;
+      end;
+    end;
+  end;
+end;
+  
+procedure readnodes();
+  var
+    a:integer;
+begin
+  write("Enter up to ", TABLEN, " non-zero integers. Enter 0 to continue.\n");
+  nodeCount:=1;
+  read(a);
+  while (a <> 0) & (nodeCount < TABLEN) do
+    nodelist[nodeCount] := a;
+    makeNode(a);
+    addNode(); $ add node to tree
+    read(a);
+    nodeCount := nodeCount + 1;    
+  end;
+  if (a = 0) then
+    nodeCount := nodeCount - 1;
+  else
+    nodelist[nodeCount] := a;
+    makeNode(a);
+    addNode(); $ add node to tree
+  end;
+end;
+
+procedure printnodes();
+  var i : integer;
+begin
+  for i:=1 to nodeCount do
+    write(i, ": [ node value = ", nodelist[i], " ]", ENDLN);
+  end;
+end;
+
+procedure printlinks();
+  var i : integer;
+begin
+  for i:=1 to nodeCount do
+    write(i, ": [ link left = ", linklist[i].left, " | right = ", linklist[i].right, " ]", ENDLN);
+  end;
+end;
+
+procedure printsort(i : integer);
+  var l : link;
+begin
+  l := linklist[i];
+  
+  if l.left <> 0 then
+    printsort(l.left);
+  end;
+  
+  write(nodelist[i], " ");
+    
+  if l.right <> 0 then
+    printsort(l.right);
+  end;
+end;
+
+begin
+  readnodes();
+  if nodeCount = 0 then write("No nodes! Stopping..."); stop; end;
+  printnodes();
+  printlinks();
+  write("\nSorted:\n");
+  printsort(1);
+end.
