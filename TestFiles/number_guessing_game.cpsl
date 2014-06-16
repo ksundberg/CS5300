@@ -1,0 +1,36 @@
+var
+	ready : char;
+	pivot : integer;
+	low : integer;
+	high : integer;
+	guess : integer;
+
+begin
+	write("Welcome to the number guessing game.",'\n');
+	write("Please think of a number between 0 and 100.",'\n');
+	write("Are you ready. enter y or n",'\n');
+	read(ready);
+	if(ready = 'y')
+	then
+		low := 0;
+		high := 100;
+		pivot := 2;
+		while pivot > 1 do
+			guess := ((high-low)/2)+low;
+			write('\n',"Is your number ", guess,". enter 1 if I am right. 2 if my number is low. or 3 if my number is high", '\n');
+			read(pivot);
+			if(pivot = 1)
+			then
+				write("Wahoo! I guessed your number!\n");
+			elseif(pivot = 2)
+			then
+				low := guess;
+			elseif(pivot = 3)
+			then
+				high := guess;
+			else
+				write("That is not a valid input", '\n');
+			end
+		end
+	end
+end.
