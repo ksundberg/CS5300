@@ -1,0 +1,91 @@
+const
+	arrayLen = 9;
+
+function iseven(n: integer) : boolean; forward;
+function isodd(n: integer): boolean;
+begin
+  if n = 0 then
+    return false;
+  else
+    return iseven(n-1);
+  end;
+end;
+
+function iseven(n: integer) : boolean;
+begin
+  if n = 0 then
+    return true;
+  else
+    return isodd(n-1);
+  end;
+end;
+
+procedure testEvenOdd();
+var
+ 	i: integer;
+begin
+ 	write("Even or odd on numbers from one to 10\n");
+
+ 	for i:= 1 to 10 do
+ 		write(i, " is ");
+ 		if iseven(i) then
+ 			write("even");
+ 		else
+ 		    write("odd");
+ 		end;
+ 		write('\n');
+ 	end;
+ end;
+
+procedure shellSort();
+var step, temp, i, j: integer;
+	vals: array[0:arrayLen] of integer;
+	t1, t2: boolean;
+begin
+  vals[0] := 3;
+  vals[1] := 5;
+  vals[2] := 1;
+  vals[3] := 6;
+  vals[4] := 9;
+  vals[5] := 8;
+  vals[6] := 2;
+  vals[7] := 7;
+  vals[8] := 10;
+  vals[9] := 4;
+
+  write("vals before sort = ", vals[0]);
+  for i := 1 to arrayLen do
+  	write( ", ", vals[i]);
+  end;
+  write("\n\n");
+
+  step := arrayLen / 2 ;
+  while step > 0 do
+    for i := step to arrayLen do
+       temp := vals[i];
+       j := i;
+       t1 := j >= step;
+       t2 := vals[j-step] > temp;
+       while t1 & t2 do
+			vals[j] := vals[j-step];
+         	j := j - step;
+       		t1 := j >= step;
+       		t2 := vals[j-step] > temp;
+       end;
+       vals[j] := temp;
+     end;
+     step := step / 2;
+  end;
+
+  write("vals after sort = ", vals[0]);
+  for i := 1 to arrayLen do
+  	write( ", ", vals[i]);
+  end;
+  write("\n\n");
+end;
+
+begin
+  	shellSort();
+	testEvenOdd();
+
+end.
