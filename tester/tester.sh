@@ -12,12 +12,11 @@ TESTDIR=TestFiles/ #test files directory (where all test.cpsl files are)
 RESULTS=Result/ #results folder (where to store cpsl run results for comparison)
 BASE=Base/ #base folder name (contains results to compare against)
 
-CPSLDIR=../../source/ #where cpsl compiler binary lives
+CPSLDIR=~/src/cpsl/ #where cpsl compiler binary lives
 BINARY=cpsl #binary name
 ASM=asm/ #tmp directory for asm files for mars to run
-OUTFILE=output.asm #output file produced by cpsl
 
-MARSDIR=../../mars/
+MARSDIR=~/src/mars/
 MARSJAR=Mars4_4.jar
 
 if [ -z $1 ]; then
@@ -42,8 +41,7 @@ for file in $files; do
         continue
     fi
 
-    ${CPSLDIR}${BINARY} ${TESTDIR}${file}
-    mv ${OUTFILE} ${ASM}${file}
+    ${CPSLDIR}${BINARY} -i ${TESTDIR}${file} -o ${ASM}${file}
 
     if [ $? -ne 0 ]; then
         echo "Error running: ${CPSLDIR}${BINARY} ${TESTDIR}${file} > ${ASM}${file}"
@@ -51,10 +49,10 @@ for file in $files; do
     fi
 
     echo -n "Executing: ${file}"
-    java -jar ${MARSDIR}${MARSJAR} ${ASM}${file} > ${RESULTS}${file}
+    java -Djava.awt.headless=true -jar ${MARSDIR}${MARSJAR} nc 1000000 ${ASM}${file} > ${RESULTS}${file}
 
     if [ $? -ne 0 ]; then
-        echo "Error running: java -jar ${MARSDIR}${MARSJAR} ${ASM}${file} > ${RESULTS}${file}"
+        echo "Error running: java -jar nc 1000000 ${MARSDIR}${MARSJAR} ${ASM}${file} > ${RESULTS}${file}"
         continue
     fi
     echo "...finished"
