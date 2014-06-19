@@ -1,3 +1,5 @@
+var i : integer;
+
 function fibonacci(var n:integer) : integer;
 BEGIN
     if n = 0 then

@@ -1,6 +1,7 @@
 VAR
 	a:integer;
 
+function functionTwo(a:integer) : integer; forward;
 function functionOne(a:integer) : integer;
 BEGIN
 	write("Function One Recieved:",a,". \nCalling Function Two From Function One With ",a+5, "\n");
