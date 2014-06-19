@@ -1,0 +1,150 @@
+var
+  gameBoard : array[1:9] of char;
+  playerMove, seed, gameOver : integer;
+
+function rand (min, max : integer) : integer;
+begin
+		seed := (seed * 125) % 2796203;
+		return seed % (max - min + 1) + min;
+end;
+
+procedure initBoard();
+var i : integer;
+begin
+	for i := 1 to 9 do
+		gameBoard[i] := ' ';
+	end;
+	gameOver := 1;
+end;
+
+procedure printBoard();
+begin
+	write(' ', gameBoard[1], " | ", gameBoard[2], " | ", gameBoard[3], '\n');
+	write("-----------\n");
+	write(' ', gameBoard[4], " | ", gameBoard[5], " | ", gameBoard[6], '\n');
+	write("-----------\n");
+	write(' ', gameBoard[7], " | ", gameBoard[8], " | ", gameBoard[9], '\n');
+end;
+
+procedure printAvailSpots();
+var i : integer;
+begin
+	write("Spaces still open: ");
+	for i := 1 to 9 do
+		if gameBoard[i] = ' ' then
+			write(i, ' ');
+		end;
+	end;
+	write('\n');
+end;
+
+function getPlayerMove() : integer;
+var pos : integer;
+begin
+	while true do
+		printAvailSpots();
+		write("Enter position: ");
+		read(pos);
+		if pos < 1 | pos > 9 then
+			write("Not a valid position!! Try again...\n");
+		else
+			if(gameBoard[pos] = ' ') then
+				gameBoard[pos] := 'X';
+				return pos;
+			else
+				write("Position already taken!! Try again...\n");
+			end;
+		end;
+	end;
+end;
+
+function checkForWin(playerType : char) : boolean;
+var didWin : boolean;
+begin
+	didWin := gameBoard[1] = playerType & gameBoard[2] = playerType & gameBoard[3] = playerType;
+	didWin := didWin | (gameBoard[4] = playerType & gameBoard[5] = playerType & gameBoard[6] = playerType);
+	didWin := didWin | (gameBoard[7] = playerType & gameBoard[8] = playerType & gameBoard[9] = playerType);
+	didWin := didWin | (gameBoard[1] = playerType & gameBoard[4] = playerType & gameBoard[7] = playerType);
+	didWin := didWin | (gameBoard[2] = playerType & gameBoard[5] = playerType & gameBoard[8] = playerType);
+	didWin := didWin | (gameBoard[3] = playerType & gameBoard[6] = playerType & gameBoard[9] = playerType);
+	didWin := didWin | (gameBoard[1] = playerType & gameBoard[5] = playerType & gameBoard[9] = playerType);
+	didWin := didWin | (gameBoard[3] = playerType & gameBoard[5] = playerType & gameBoard[7] = playerType);
+	return didWin;
+end;
+
+function spotsRemaining() : integer;
+var i, remain : integer;
+begin
+	remain := 0;
+	for i := 1 to 9 do
+		if gameBoard[i] = ' ' then
+			remain := remain + 1;
+		end;
+	end;
+	return remain;
+end;
+
+procedure makeAIMove();
+var aiMove : integer;
+begin
+	if (spotsRemaining() > 0) then
+		aiMove := 0;
+		while (aiMove < 1) do
+			aiMove := rand(1,9);
+			if gameBoard[aiMove] = ' ' then
+				gameBoard[aiMove] := 'O';
+			else
+				aiMove := 0;
+			end;
+		end;
+	end;
+end;
+
+begin
+	seed := 997;
+
+	initBoard();
+	printBoard();
+
+	while spotsRemaining() > 0 & gameOver <> 0 do
+		seed := seed * getPlayerMove();
+		if checkForWin('X') then
+			printBoard();
+			write("Player Won!!!\n");
+			gameOver := 0;
+		end;
+
+		if gameOver <> 0 then
+			makeAIMove();
+			if checkForWin('O') then
+				printBoard();
+				write("Computer Won!!!\n");
+				gameOver := 0;
+			else
+				printBoard();
+			end;
+		end;
+	end;
+
+	if gameOver <> 0 then
+		write("Draw!!!\n");
+	end;
+
+	write("Game Over\n");
+
+end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
