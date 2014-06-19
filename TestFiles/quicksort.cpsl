@@ -1,0 +1,107 @@
+$ Program that utilizes Quicksort to sort an array of 'random' integers
+
+const
+	ARRAYSTART = 0;
+	ARRAYEND = 9;
+
+type
+	fArray = array[ARRAYSTART:ARRAYEND] of integer;
+
+var
+	a1 : fArray;
+	rSeed : integer;
+
+$NOTE: This is not a true random number generator
+$ It is in fact a very poor, but simple, 'random' number generator
+function random() : integer;
+	var r : integer;
+begin
+	r := (7 * rSeed) % 11;
+	rSeed := r;
+	return r;
+end;
+
+function choosePivot(var aStart,aEnd : integer) : integer;
+	var mid : integer;
+begin
+	mid := aStart + aEnd;
+	mid := mid / 2;
+	return mid;
+end;
+
+procedure printArray(var A : fArray);
+	var j : integer;
+begin
+	write('[');
+
+	for j:= ARRAYSTART to ARRAYEND do
+		write(A[j],',');
+	end;
+
+	write(']','\n');
+
+end;
+
+procedure swap(var indA,indB : integer);
+	var temp : integer;
+begin
+	temp := a1[indA];
+	a1[indA] := a1[indB];
+	a1[indB] := temp;
+end;
+
+function partition(var left,right : integer) : integer;
+	var i,pIndex,pValue,sIndex : integer;
+begin
+	pIndex := choosePivot(left, right);
+	pValue := a1[pIndex];
+	swap(pIndex, right);
+	sIndex := left;
+
+	for i := left to right - 1 do
+		if a1[i] <= pValue then
+			swap(i, sIndex);
+			sIndex := sIndex + 1;
+		end;
+	end;
+
+	swap(sIndex, right);
+
+	return sIndex;
+end;
+
+procedure quicksort(var aStart,aEnd : integer);
+	var p : integer;
+begin
+	if aStart < aEnd then
+		p := partition(aStart, aEnd);
+		quicksort(aStart, p - 1);
+		quicksort(p + 1, aEnd);
+	end;
+end;
+
+procedure fill();
+	var j : integer;
+begin
+	for j:= ARRAYSTART to ARRAYEND do
+		a1[j] := random();
+	end;
+end;
+
+$ Main Program
+begin
+	write("Insert an integer for the random number seed:\n");
+	read(rSeed);
+	write('\n');
+
+	fill();
+
+	write("Array 1 unsorted:\n");
+	printArray(a1);
+
+	write("\nSorting Using Quicksort\n");
+	quicksort(ARRAYSTART,ARRAYEND);
+	
+	write("\nArray 1 sorted:\n");
+	printArray(a1);
+end.
