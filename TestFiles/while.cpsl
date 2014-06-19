@@ -1,0 +1,13 @@
+VAR 
+  i, j : integer;
+
+BEGIN
+
+i:= 12;
+
+while(i >= 0) do
+  write(i,"i ");
+  i := i-1;
+end;
+
+END.

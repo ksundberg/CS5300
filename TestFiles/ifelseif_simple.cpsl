@@ -1,0 +1,12 @@
+VAR 
+  i : integer;
+
+BEGIN
+
+  i := 3;
+
+  if (i < 5)
+    then write("i less than 5!\n");
+  end;
+
+END.

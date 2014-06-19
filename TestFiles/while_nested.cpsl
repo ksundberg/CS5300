@@ -1,0 +1,19 @@
+VAR 
+  i, j : integer;
+
+BEGIN
+
+i:= 12;
+j:= 0;
+
+while(i >= 0) do
+  while(j <= 5) do
+    write(j, "j ");
+    j := j+1;
+  end;
+  write(i,"i ");
+  i := i-1;
+  j := 0;
+end;
+
+END.

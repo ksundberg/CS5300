@@ -1,0 +1,13 @@
+VAR
+  a, b : integer;
+
+FUNCTION add (a,b: integer) : integer;
+BEGIN
+  return a + b;
+END;
+
+BEGIN
+  a := 1;
+  b := 2;
+  write("a + b: " + add(a, b));
+END.

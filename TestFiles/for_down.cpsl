@@ -1,0 +1,10 @@
+VAR 
+  i : integer;
+
+BEGIN 
+
+  for i := 10 downto 5 do
+    write(i, " \n");
+  end;
+
+END

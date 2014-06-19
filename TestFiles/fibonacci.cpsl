@@ -1,0 +1,35 @@
+var fib, first, second, counter, next : integer;
+
+function getFib(a : integer) : integer;
+var b, c : integer;
+begin
+	if a = 0 then return 0;
+	elseif a = 1 then return 1;
+	else
+	b := getFib(a-1);
+	c := getFib(a-2);
+	return b+c;
+	end;
+end;
+
+begin
+	write("Here is a Simple Fibonacci Sequence Calculator.\n");
+	write("Enter a positive integer to calculate the fibonacci sequence:\n");
+
+	read(fib);
+	counter := fib-1;
+	first:=0;
+	second:=1;
+	write(first, ", ", second,", ");
+	$Write out the iterative form of the sequence to test control structure
+	while counter>0 do 
+		next:= first+second;
+		write(next, ", ");
+		first:=second;
+		second:=next;
+		counter:=counter-1;
+	end;
+	write("\n");
+	$use a function call to do the same thing, but to test recursion
+	write("The ", fib," number of the fibonacci sequence is ", getFib(fib));
+end.

@@ -1,0 +1,12 @@
+VAR
+  a : integer;
+
+PROCEDURE greeting(num : integer);
+BEGIN
+  write("Hi " + num + "\n");
+END;
+
+BEGIN
+  a := 1;
+  greeting(a);
+END.
