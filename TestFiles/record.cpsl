@@ -1,0 +1,22 @@
+TYPE
+  towertype = RECORD
+	  	x,y,z : integer;
+	      END;
+VAR
+  source : towertype;
+  temp: integer;
+BEGIN
+
+source.x := 40;
+temp := source.x;
+write(temp, "=source.x ");
+
+source.y := 41;
+temp := source.y;
+write(temp, "=source.y ");
+
+source.z := 42;
+temp := source.z;
+write(temp, "=source.z ");
+
+END.
