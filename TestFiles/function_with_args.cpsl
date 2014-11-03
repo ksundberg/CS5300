@@ -9,5 +9,5 @@ END;
 BEGIN
   a := 1;
   b := 2;
-  write("a + b: " + add(a, b));
+  write("a + b: " , add(a, b));
 END.
