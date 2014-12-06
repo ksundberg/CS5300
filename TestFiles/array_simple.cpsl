@@ -1,0 +1,23 @@
+$ Program tests the simple functionality of an array
+
+const
+	ARRAYSTART = 1;
+	ARRAYEND = 5;
+
+type
+	simpleArray = array[ARRAYSTART:ARRAYEND] of integer;
+	
+var 
+	myArray : simpleArray;
+	simpleInteger : integer;
+	
+begin
+	simpleInteger := 5;
+	myArray[1] := simpleInteger;
+	myArray[2] := myArray[1] + simpleInteger;
+	
+	write("\nValue at Index 1: ", myArray[1], "\n");
+	write("\nValue at Index 2: ", myArray[2], "\n");
+	write("Should have printed a 5 and then a 10\n");
+	
+end.
