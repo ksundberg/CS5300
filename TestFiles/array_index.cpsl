@@ -1,0 +1,27 @@
+$Program to test array indexing using an expression.
+
+type
+	nums = array[0+1 : 8+4] of integer;
+
+var 
+	x : integer;
+	arr : nums;
+
+function mean(var a:nums) : integer;
+	var i,total,mean:integer;
+begin
+	total := 0;
+	for i := 1 to 12 do
+		total := total + a[i];
+	end;
+	mean = total / 12;
+	return mean;
+end;
+
+begin
+	for x := 1 to 12 do
+		arr[x] := 5 + x * x;
+	end;
+
+	write("The mean of the array is: ", mean(arr), '\n');
+end.

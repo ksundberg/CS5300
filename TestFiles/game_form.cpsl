@@ -1,0 +1,71 @@
+$ Use of records in functions
+
+const 
+  LENGTH = 6;
+
+type
+  rectype = record
+    score1,score2 : integer;
+    bool1 : boolean;
+  end;
+
+var
+  compare_table : array[1:LENGTH] of rectype;
+  table_entry : integer;
+
+function scoreread() : rectype;
+var
+  hscore:rectype;
+begin
+  write("Enter ManchesterUnited score: \n");
+  read(hscore.score1);
+  Write("Enter Away team score \n");
+  read(hscore.score2);
+  if hscore.score1 > hscore.score2 then
+	bool1 = true;
+  else
+	bool1 = false;
+  end;
+end;
+
+  
+procedure readtable ();
+var
+  n:integer;
+begin
+  for n:=1 to table_entry do
+      compare_table[n] := scoreread();
+  end;
+end;
+
+procedure printtable();
+  var
+    i,n:integer;
+begin
+  write("Manchester United form. Last ",table_entry," games \n");
+  write("---------------------------------------------\n");
+  for n := 1 to table_entry do
+    write(n, ": MU \t", compare_table[n].score1, '\t',": AWAY\t", compare_table[n].score2, '\t');
+    if compare_table[n].bool1 = true
+      then write("WIN \n");
+    else
+       write("LOSS OR DRAW \n");
+  end;
+end;
+
+
+begin
+  write("How many table entries do you want to make? \n");
+  read(table_entry);
+  while table_entry > LENGTH do
+     write("Table can only handle", LENGTH, "entries. Try again: \n");
+     read(table_entry);
+  end;
+  readtable();
+  printtable();
+end.
+
+  
+  
+     
+
