@@ -1,0 +1,40 @@
+TYPE
+  recordType = RECORD
+	  	 x,y,z : integer;
+	       END;
+VAR
+  source : recordType;
+  temp : integer;
+  x,y,z : integer;
+BEGIN
+
+$ Assign test values to the variables and recordType
+$ member variables.
+
+$ TODO: RECORD member variables still can't be used
+$ directly in a write statement.  A temporary must
+$ be used until it is fixed.
+
+x := 50;
+source.x := 40;
+temp := source.x;
+write(temp, "=source.x ");
+
+y := 51;
+source.y := 41;
+temp := source.y;
+write(temp, "=source.y ");
+
+z := 52;
+source.z := 42;
+temp := source.z;
+write(temp, "=source.z ");
+
+$ Show that recordType's member variables are different
+$ from regular variables of the same name.
+
+write(x, "=x ");
+write(y, "=y ");
+write(z, "=z ");
+
+END.
