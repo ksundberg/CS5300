@@ -144,7 +144,7 @@ Procedure and Function Declarations have the following structure:
 \alt "function" <ident> "(" <FormalParameters> ")" ":" <Type>  ";" "<Body>" ";"
 
 <FormalParameters> $\rightarrow$ <empty>
-\alt "var"? <IdentList> ":" <Type> (";" "var"? <IdentList> ":" <Type>)*
+\alt ("var"|"ref")? <IdentList> ":" <Type> (";" ("var"|"ref")? <IdentList> ":" <Type>)*
 
 <Body> $\rightarrow$ <ConstantDecl>? <TypeDecl>? <VarDecl>? <Block>
 
@@ -159,7 +159,11 @@ Notice also the provision for accommodating \textbf{forward} references to proce
 Notice also that both procedures and functions requires parentheses
 in the definition even if there are no parameters.
 This is also true for their invocations.
-
+Notice also that parameters have an optional keyword of \textbf{var} or \textbf{ref} before the \textbf{IdentList}.
+This keyword represents passing the \textbf{IdentList} by \textit{value} or \textit{reference}.
+If the keyword \textbf{var} is used, then the \textbf{IdentList} will be passed by \textit{value}.
+If the keyword \textbf{ref} is used, then the \textbf{IdentList} will be passed by \textit{reference}.
+If the keywords \textbf{var} and \textbf{ref} are omitted, then by default, variables are passed by \textit{value}.
 
 \subsection{Type Declarations}
 
