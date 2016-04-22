@@ -387,6 +387,18 @@ side effects, except for output or through global variables and reference
 parameters.
 \subsection{Return}
 The return statement passes control back to a function or procedure caller.  If it is a function the expression returned becomes the expression of the function call in the callers scope.
+\subsection{Function Overloading}
+Functions or procedures with different bodies may have the same name. For this
+to be valid, each function/procedure must have a different type signature. A type
+signature is defined by the order of parameters and their respective types. Note
+that,
+
+\begin{itemize}
+\item The parameter names do not affect a function's type signature.
+\item \textbf{var}/\textbf{ref} does not change a function's type signature.
+\item The return type also does not affect a function's type signature.
+\end{itemize}
+
 \section{User Defined Types}
 \subsection{Arrays}
 Arrays are a contiguously allocated, homogeneously typed set of variables.
