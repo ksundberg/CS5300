@@ -30,11 +30,12 @@ function	FUNCTION
 read	READ
 then	THEN
 write	WRITE
+ref REF
 
 Identifiers_________________________
 
 integer
-char 
+char
 boolean
 string
 true
@@ -99,7 +100,3 @@ Comments____________________________
 $ this is a comment
 this is not
 $this is another comment
-
-	
-
-
