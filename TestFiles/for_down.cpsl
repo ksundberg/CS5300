@@ -7,4 +7,4 @@ BEGIN
     write(i, " \n");
   end;
 
-END
+END.
