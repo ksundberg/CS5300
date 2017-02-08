@@ -22,9 +22,9 @@ begin
   Write("Enter Away team score \n");
   read(hscore.score2);
   if hscore.score1 > hscore.score2 then
-	bool1 = true;
+	bool1 := true;
   else
-	bool1 = false;
+	bool1 := false;
   end;
 end;
 
@@ -50,6 +50,7 @@ begin
       then write("WIN \n");
     else
        write("LOSS OR DRAW \n");
+    end;
   end;
 end;
 
@@ -64,8 +65,3 @@ begin
   readtable();
   printtable();
 end.
-
-  
-  
-     
-

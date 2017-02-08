@@ -14,7 +14,7 @@ begin
 	for i := 1 to 12 do
 		total := total + a[i];
 	end;
-	mean = total / 12;
+	mean := total / 12;
 	return mean;
 end;
 
