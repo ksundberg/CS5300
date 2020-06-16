@@ -19,13 +19,14 @@ var
 begin
   write("Enter ManchesterUnited score: \n");
   read(hscore.score1);
-  Write("Enter Away team score \n");
+  write("Enter Away team score \n");
   read(hscore.score2);
   if hscore.score1 > hscore.score2 then
-	bool1 := true;
+	hscore.bool1 := true;
   else
-	bool1 := false;
+	hscore.bool1 := false;
   end;
+  return hscore
 end;
 
   
