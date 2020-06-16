@@ -6,7 +6,7 @@ procedure init_board();
 var i : integer;
 begin
   for i := 0 to 23 do
-    if ((i % 8) + (i % 2)) = 0 then
+    if (i / 8) % 2 = (i % 2) then
       game_board[i] := 'x';
     else
       game_board[i] := ' ';
@@ -14,12 +14,12 @@ begin
   end;
 
   for i := 24 to 39 do
-    gameBoard[i] := ' ';
+    game_board[i] := ' ';
   end;
 
   for i := 40 to 63 do
-    if ((i % 8) + (i % 2)) = 0 then
-      game_board[i] := 'x';
+    if (i / 8) % 2 = (i % 2) then
+      game_board[i] := 'o';
     else
       game_board[i] := ' ';
     end;
@@ -31,24 +31,24 @@ end;
 function pieces_remaining(label : char) : integer;
 var i, count : integer;
 begin
-  remain := 0;
+  count := 0;
   for i := 0 to 63 do
     if (game_board[i] = label) then
-      remain := remain + 1;
+      count := count + 1;
     end;
   end;
-  return remain;
+  return count;
 end;
 
 procedure print_board();
 var i : integer;
 begin
-  $ write(' ', gameBoard[1], " | ", gameBoard[2], " | ", gameBoard[3], ' ', gameBoard[4], " | ", gameBoard[5], " | ", gameBoard[6], ' ', gameBoard[7], '\n');
+  $ write(' ', game_board[1], " | ", game_board[2], " | ", game_board[3], ' ', game_board[4], " | ", game_board[5], " | ", game_board[6], ' ', game_board[7], '\n');
   $ write("-----------\n");
 
   i := 0;
   for i := 7 downto 0 do
-    write(gameBoard[8*i], gameBoard[8*i + 1], gameBoard[8*i + 2], gameBoard[8*i + 3], gameBoard[8*i + 4], gameBoard[8*i + 5], gameBoard[8*i + 6], gameBoard[8*i + 7], '\n');
+    write(game_board[8*i], game_board[8*i + 1], game_board[8*i + 2], game_board[8*i + 3], game_board[8*i + 4], game_board[8*i + 5], game_board[8*i + 6], game_board[8*i + 7], "    ", 8*i, "-", 8*i+7, '\n');
   end;
 end;
 
@@ -59,15 +59,18 @@ begin
   adj := 0;
   
   if dir = 0 then
-    adj := -7;
-  elseif dir = 1 then
     adj := 9;
+  elseif dir = 1 then
+    adj := -7;
   elseif dir = 2 then
-    adj := 7;
-  elseif dir = 3 then
     adj := -9;
+  elseif dir = 3 then
+    adj := 7;
   end;
   new := new + adj;
+  if new >= 64 then
+    return -3;
+  end;
 
   $ This logic implements a cylinder shaped board.
   if game_board[new] = game_board[cell] then
@@ -75,8 +78,16 @@ begin
   elseif game_board[new] <> ' ' then
     new := new + adj;
 
+    if new >= 64 then
+      return -4;
+    end;
+
     if game_board[new] <> ' ' then
       new := -2;
+    end;
+
+    if new >= 0 then
+      game_board[new - adj] := ' ';
     end;
   end;
 
@@ -90,20 +101,33 @@ begin
   dir := -1;
   new := -1;
 
-  while ~((cell > -1) & (cell < 64) & (new < 0)) do
+  while ~((cell > -1) & (cell < 64) & (new >= 0)) do
     write("\nEnter the number of a square with an x: ");
     read(cell);
     write('\n');
 
-    write("\n3 0\n");
-    write(" x \n");
-    write("2 1\n");
+    if ~((cell > -1) & (cell < 64)) then
+      print_board();
+      write("Invalid cell.\n");
+    elseif game_board[cell] <> 'x' then
+      print_board();
+      write("Invalid cell.\n");
+    else
+      write("\n3 0\n");
+      write(" x \n");
+      write("2 1\n");
 
-    write("\nPick a direction: \n");
-    read(dir);
-    write('\n');
+      write("\nPick a direction: \n");
+      read(dir);
+      write('\n');
 
-    new := move_cell(cel, dir);
+      new := move_cell(cell, dir);
+
+      if new < 0 then
+        print_board();
+        write("Invalid move.\n");
+      end;
+    end;
   end;
 
   game_board[cell] := ' ';
@@ -122,20 +146,33 @@ begin
   dir := -1;
   new := -1;
 
-  while ~((cell > -1) & (cell < 64) & (new < 0)) do
+  while ~((cell > -1) & (cell < 64) & (new >= 0)) do
     write("\nEnter the number of a square with an o: ");
     read(cell);
     write('\n');
 
-    write("\n3 0\n");
-    write(" x \n");
-    write("2 1\n");
+    if ~((cell > -1) & (cell < 64)) then
+      print_board();
+      write("Invalid cell.\n");
+    elseif game_board[cell] <> 'o' then
+      print_board();
+      write("Invalid cell.\n");
+    else
+      write("\n3 0\n");
+      write(" x \n");
+      write("2 1\n");
 
-    write("\nPick a direction: \n");
-    read(dir);
-    write('\n');
+      write("\nPick a direction: \n");
+      read(dir);
+      write('\n');
 
-    new := move_cell(cel, dir);
+      new := move_cell(cell, dir);
+
+      if new < 0 then
+        print_board();
+        write("Invalid move.\n");
+      end;
+    end;
   end;
 
   game_board[cell] := ' ';
@@ -164,7 +201,7 @@ end;
 begin
   init_board();
 
-  while (pieces_remaing('x') > 0) & (pieces_remaining('o') > 0) do
+  while (pieces_remaining('x') > 0) & (pieces_remaining('o') > 0) do
     print_board();
 
     if (turn = 0) then

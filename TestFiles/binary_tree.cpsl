@@ -61,7 +61,7 @@ begin
   read(a);
   while (a <> 0) & (nodeCount < TABLEN) do
     nodelist[nodeCount] := a;
-    makeNode(a);
+    makeNode();
     addNode(); $ add node to tree
     read(a);
     nodeCount := nodeCount + 1;    
@@ -70,7 +70,7 @@ begin
     nodeCount := nodeCount - 1;
   else
     nodelist[nodeCount] := a;
-    makeNode(a);
+    makeNode();
     addNode(); $ add node to tree
   end;
 end;
